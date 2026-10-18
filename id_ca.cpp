@@ -494,7 +494,9 @@ void CAL_SetupGrFile (void)
             "(For mod developers: perhaps you forgot to update NUMCHUNKS?)",
             fname, headersize / 3, expectedsize);
 
+    // Data files for fewer episodes have a shorter header, so pad the rest as sparse chunks
     byte data[lengthof(grstarts) * 3];
+    memset(data, 0xff, sizeof(data));
     if (read(handle, data, sizeof(data)) < 0)
     {
         close(handle);
